@@ -1,0 +1,32 @@
+apply plugin: 'java-library'
+
+repositories {
+  maven {
+    url "http://maven.aliyun.com/nexus/content/groups/public"
+  }
+}
+
+dependencies {
+  def log4jVersion = "2.8.2"
+  compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
+  compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+  compile "org.apache.logging.log4j:log4j-jcl:$log4jVersion"
+  compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
+  compile 'io.netty:netty-all:4.1.11.Final'
+  compile 'com.google.guava:guava:21.0'
+  compile "io.javaslang:javaslang:2.0.5"
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:3.8.0'
+}
+
+task runEchoServer(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'netty.echo.EchoServer'
+  args '9081'
+}
+
+task runEchoClient(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'netty.echo.EchoClient'
+  args 'localhost', '9081'
+}
